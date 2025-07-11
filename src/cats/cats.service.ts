@@ -22,7 +22,7 @@ export class CatsService {
     const breed = await this.breedRepository.findOneBy({id: createCatDto.breedId})
    
      if(!breed){
-       throw new BadRequestException('a')
+       throw new BadRequestException('Breed inexistente')
      }else{
        const cat = await this.catRepository.create({
          name: createCatDto.name,
