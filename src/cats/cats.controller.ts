@@ -27,6 +27,12 @@ export class CatsController {
     return this.catsService.findOne(+id);
   }
 
+  @Get('ownCats')
+  @Auth(Role.USER)
+  getOwnCats(@ActiveUser() user: UserActiveInterface){
+    return this.catsService.getOwnCats(user)
+  }
+
   @Patch(':id')
   @Auth(Role.USER)
   update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
