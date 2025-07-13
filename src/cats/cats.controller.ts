@@ -24,7 +24,7 @@ export class CatsController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.catsService.findOne(+id);
+    return this.catsService.findOne(id);
   }
 
   @Get('ownCats')
@@ -36,12 +36,12 @@ export class CatsController {
   @Patch(':id')
   @Auth(Role.USER)
   update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
-    return this.catsService.update(+id, updateCatDto);
+    return this.catsService.update(id, updateCatDto);
   }
 
   @Delete(':id')
   @Auth(Role.ADMIN)
   remove(@Param('id') id: number) {
-    return this.catsService.remove(+id);
+    return this.catsService.remove(id);
   }
 }
