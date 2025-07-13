@@ -53,7 +53,7 @@ export class CatsService {
   async getOwnCats({email} : UserActiveInterface) {
     return await this.catRepository.find({
       where: { userEmail: email },
-      relations: ['breed']
+      // relations: ['breed']
     });
   }
 
