@@ -40,7 +40,7 @@ export class CatsController {
   }
 
   @Delete(':id')
-  @Auth(Role.ADMIN)
+  @Auth(Role.USER)
   remove(@Param('id') id: number) {
     return this.catsService.remove(id);
   }
