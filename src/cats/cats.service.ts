@@ -5,6 +5,7 @@ import {
   Injectable,
   Param,
   Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -70,7 +71,12 @@ export class CatsService {
     return await this.catRepository.update({ id }, updateCatDto);
   }
 
-  async remove(id: number) {
-    return await this.catRepository.softDelete({ id });
+  async remove(id: number, user: UserActiveInterface) {
+    const cat = await this.catRepository.findOneBy({id})
+    if(cat?.userEmail !== user.email){
+      throw new UnauthorizedException('Este gato no es de tu autoria.')
+    }else{
+      return await this.catRepository.softDelete({ id });
+    }
   }
 }

@@ -41,7 +41,7 @@ export class CatsController {
 
   @Delete(':id')
   @Auth(Role.USER)
-  remove(@Param('id') id: number) {
-    return this.catsService.remove(id);
+  remove(@Param('id') id: number, @ActiveUser() user: UserActiveInterface) {
+    return this.catsService.remove(id, user);
   }
 }
