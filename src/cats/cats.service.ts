@@ -51,21 +51,19 @@ export class CatsService {
   }
 
   @Get()
-  async findAllPaged(pageSelected: number, size: number) {
+ async findAllPaged(pageSelected: number, size: number) {
+  const [cats, count] = await this.catRepository.findAndCount({
+    skip: pageSelected * size,
+    take: size,
+  });
 
-    const totalCats = await this.catRepository.find();
-   
-    const totalPages = Math.ceil(totalCats.length / size)
+  const totalPages = Math.ceil(count / size);
 
-    const leftIndex = pageSelected * size
-
-    let page = totalCats.slice(leftIndex, leftIndex + size)
-
-    return {
-      totalPages: totalPages,
-      result: page
-    }
-  }
+  return {
+    totalPages,
+    result: cats,
+  };
+}
 
  
   
