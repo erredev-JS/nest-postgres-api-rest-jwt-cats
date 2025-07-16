@@ -21,6 +21,10 @@ export class CatsController {
   findAll() {
     return this.catsService.findAll();
   }
+  @Get(':size/:pageSelected')
+  findAllPaged(@Param('size', ParseIntPipe) size: number, @Param('pageSelected') pageSelected: number) {
+    return this.catsService.findAllPaged(size, pageSelected);
+  }
   @Get('ownCats')
   @Auth(Role.USER)
   getOwnCats(@ActiveUser() user: UserActiveInterface){
