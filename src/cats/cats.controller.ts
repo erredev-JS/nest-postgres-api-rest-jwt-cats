@@ -46,6 +46,7 @@ export class CatsController {
     return this.catsService.getOwnCats(user);
   }
   @Get('ownCats/:size/:pageSelected')
+  @Auth(Role.USER)
   getOwnCatsPaged(
     @ActiveUser() user: UserActiveInterface,
     @Param('size', ParseIntPipe) size: number,
