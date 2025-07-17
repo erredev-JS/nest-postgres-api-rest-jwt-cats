@@ -74,7 +74,7 @@ export class CatsService {
     });
   }
 
-  async getOwnCatsPaged(user: UserActiveInterface, pageSelected, size: number){
+  async getOwnCatsPaged(user: UserActiveInterface, pageSelected: number, size: number){
      const [cats, count] = await this.catRepository.findAndCount({
     where: {userEmail: user.email},
     skip: pageSelected * size,
