@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -13,7 +22,10 @@ export class CatsController {
 
   @Post()
   @Auth(Role.USER)
-  create(@Body() createCatDto: CreateCatDto, @ActiveUser() user: UserActiveInterface) {
+  create(
+    @Body() createCatDto: CreateCatDto,
+    @ActiveUser() user: UserActiveInterface,
+  ) {
     return this.catsService.create(createCatDto, user);
   }
 
@@ -22,20 +34,29 @@ export class CatsController {
     return this.catsService.findAll();
   }
   @Get(':size/:pageSelected')
-  findAllPaged(@Param('size', ParseIntPipe) size: number, @Param('pageSelected') pageSelected: number) {
+  findAllPaged(
+    @Param('size', ParseIntPipe) size: number,
+    @Param('pageSelected') pageSelected: number,
+  ) {
     return this.catsService.findAllPaged(size, pageSelected);
   }
   @Get('ownCats')
   @Auth(Role.USER)
-  getOwnCats(@ActiveUser() user: UserActiveInterface){
-    return this.catsService.getOwnCats(user)
+  getOwnCats(@ActiveUser() user: UserActiveInterface) {
+    return this.catsService.getOwnCats(user);
   }
-
+  @Get('ownCats/:size/:pageSelected')
+  getOwnCatsPaged(
+    @ActiveUser() user: UserActiveInterface,
+    @Param('size', ParseIntPipe) size: number,
+    @Param('pageSelected') pageSelected: number,
+  ) {
+    return this.catsService.getOwnCatsPaged(user, pageSelected, size);
+  }
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.catsService.findOne(id);
   }
-
 
   @Patch(':id')
   @Auth(Role.USER)

@@ -74,6 +74,21 @@ export class CatsService {
     });
   }
 
+  async getOwnCatsPaged(user: UserActiveInterface, pageSelected, size: number){
+     const [cats, count] = await this.catRepository.findAndCount({
+    where: {userEmail: user.email},
+    skip: pageSelected * size,
+    take: size,
+  });
+
+  const totalPages = Math.ceil(count / size);
+
+  return {
+    totalPages,
+    result: cats,
+  };
+  }
+
   async findOne(@Param() id: number) {
     const cat = await this.catRepository.findOneBy({ id: id });
     if (!cat) {
