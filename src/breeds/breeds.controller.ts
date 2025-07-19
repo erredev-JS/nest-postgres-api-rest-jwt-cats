@@ -11,7 +11,7 @@ export class BreedsController {
   constructor(private readonly breedsService: BreedsService) {}
 
   @Post()
-  @Auth(Role.USER)
+  @Auth(Role.ADMIN)
   create(@Body() createBreedDto: CreateBreedDto) {
     return this.breedsService.create(createBreedDto);
   }

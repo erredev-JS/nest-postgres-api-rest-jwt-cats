@@ -21,7 +21,7 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
-  @Auth(Role.USER)
+  @Auth(Role.USER, Role.ADMIN)
   create(
     @Body() createCatDto: CreateCatDto,
     @ActiveUser() user: UserActiveInterface,
@@ -41,12 +41,12 @@ export class CatsController {
     return this.catsService.findAllPaged(size, pageSelected);
   }
   @Get('ownCats')
-  @Auth(Role.USER)
+   @Auth(Role.USER, Role.ADMIN)
   getOwnCats(@ActiveUser() user: UserActiveInterface) {
     return this.catsService.getOwnCats(user);
   }
   @Get('ownCats/:size/:pageSelected')
-  @Auth(Role.USER)
+   @Auth(Role.USER, Role.ADMIN)
   getOwnCatsPaged(
     @ActiveUser() user: UserActiveInterface,
     @Param('size', ParseIntPipe) size: number,
@@ -60,13 +60,13 @@ export class CatsController {
   }
 
   @Patch(':id')
-  @Auth(Role.USER)
+  @Auth(Role.USER, Role.ADMIN)
   update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
     return this.catsService.update(id, updateCatDto);
   }
 
   @Delete(':id')
-  @Auth(Role.USER)
+   @Auth(Role.USER, Role.ADMIN)
   remove(@Param('id') id: number, @ActiveUser() user: UserActiveInterface) {
     return this.catsService.remove(id, user);
   }
