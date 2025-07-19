@@ -25,14 +25,14 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  login(
+  register(
     @Body()
     registerDto: RegisterDto,
   ) {
     return this.authService.register(registerDto);
   }
   @Post('login')
-  register(
+  login(
     @Body()
     loginDto: LoginDto,
   ) {
