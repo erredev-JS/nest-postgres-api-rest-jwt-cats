@@ -1,4 +1,5 @@
 import { IsString, minLength } from 'class-validator';
+import { Role } from 'src/auth/enums/rol.enum';
 import {Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
 @Entity()
 export class User {
@@ -15,7 +16,7 @@ export class User {
     @Column({nullable: false, select: false})
     password: string;
 
-    @Column({default: 'admin'})
+    @Column({default: Role.ADMIN})
     role: string;
 
     @DeleteDateColumn()
