@@ -26,7 +26,7 @@ export class CatsService {
     private readonly breedRepository: Repository<Breed>,
   ) {}
 
-  @Post()
+ 
   async create(createCatDto: CreateCatDto, user: UserActiveInterface) {
     const breed = await this.breedRepository.findOneBy({
       id: createCatDto.breedId,
@@ -45,12 +45,11 @@ export class CatsService {
     }
   }
 
-  @Get()
+  
   async findAll () {
     return await this.catRepository.find()
   }
 
-  @Get()
  async findAllPaged(pageSelected: number, size: number) {
   const [cats, count] = await this.catRepository.findAndCount({
     skip: pageSelected * size,

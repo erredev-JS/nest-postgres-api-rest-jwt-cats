@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BreedsService } from './breeds.service';
 import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
@@ -19,6 +27,14 @@ export class BreedsController {
   @Get()
   findAll() {
     return this.breedsService.findAll();
+  }
+
+  @Get(':size/:pageSelected')
+  findAllPaged(
+    @Param('size') size: number,
+    @Param('pageSelected') pageSelected: number,
+  ) {
+    return this.breedsService.findAllPaged(size, pageSelected);
   }
 
   @Get(':id')

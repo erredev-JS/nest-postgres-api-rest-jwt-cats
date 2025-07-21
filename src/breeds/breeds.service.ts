@@ -20,7 +20,20 @@ export class BreedsService {
   async findAll() {
     return await this.breedRepository.find()
   }
-
+    
+   async findAllPaged(pageSelected: number, size: number) {
+    const [breeds, count] = await this.breedRepository.findAndCount({
+      skip: pageSelected * size,
+      take: size,
+    });
+  
+    const totalPages = Math.ceil(count / size);
+  
+    return {
+      totalPages,
+      result: breeds,
+    };
+  }
   async findOne(id: number) {
    const breed = await this.breedRepository.findOneBy({id})
    if(!breed){
