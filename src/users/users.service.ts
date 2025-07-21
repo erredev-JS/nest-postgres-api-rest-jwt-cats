@@ -3,43 +3,56 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import {Repository} from 'typeorm'
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
-  ){}
+    private readonly userRepository: Repository<User>,
+  ) {}
   async create(createUserDto: CreateUserDto) {
-    
-    const user = this.userRepository.create(createUserDto)
-    return this.userRepository.save(user)
-
+    const user = this.userRepository.create(createUserDto);
+    return this.userRepository.save(user);
   }
 
   async findAll() {
-    return await this.userRepository.find()
+    return await this.userRepository.find();
   }
+  async findAllPaged(pageSelected: number, size: number) {
+    const [breeds, count] = await this.userRepository.findAndCount({
+      skip: pageSelected * size,
+      take: size,
+    });
 
+    const totalPages = Math.ceil(count / size);
+
+    return {
+      totalPages,
+      result: breeds,
+    };
+  }
   async findOne(id: number) {
-    return await this.userRepository.findOneBy({id: id})
+    return await this.userRepository.findOneBy({ id: id });
   }
 
-  async findOneByEmail(email: string){
-    return await this.userRepository.findOneBy({email: email}) 
+  async findOneByEmail(email: string) {
+    return await this.userRepository.findOneBy({ email: email });
   }
 
-  async findByEmailWithPassword(email: string){
-    return await this.userRepository.findOne({where: {email}, select: ['id', 'name', 'email', 'password', 'role']})
+  async findByEmailWithPassword(email: string) {
+    return await this.userRepository.findOne({
+      where: { email },
+      select: ['id', 'name', 'email', 'password', 'role'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOneBy({id: id})
-    if(!user){
-      return `Usuario con id: ${id} no encontrado`
+    const user = await this.userRepository.findOneBy({ id: id });
+    if (!user) {
+      return `Usuario con id: ${id} no encontrado`;
     }
-    return this.userRepository.update(id, updateUserDto)
+    return this.userRepository.update(id, updateUserDto);
   }
 
   async remove(id: number) {

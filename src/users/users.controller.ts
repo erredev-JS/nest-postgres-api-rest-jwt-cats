@@ -20,6 +20,14 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
+  @Get(':size/:pageSelected')
+  @Auth(Role.ADMIN)
+  findAllPaged(
+    @Param('size') size: number,
+    @Param('pageSelected') pageSelected: number,
+  ) {
+    return this.usersService.findAllPaged(size, pageSelected);
+  }
 
   @Get(':id')
   @Auth(Role.ADMIN)
