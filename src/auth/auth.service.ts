@@ -46,14 +46,7 @@ export class AuthService {
     };
   }
 
-  async profile({ email, role }: { email: string; role: string }) {
-    // Una tecnica un poco arcaica, usaremos un middleware para remplazar esto
-    // if (role !== 'admin') {
-    //   throw new UnauthorizedException(
-    //     'You are not authorized to access this resource',
-    //   );
-    // }
-
+  async profile({ email }: { email: string }) {
     return await this.usersService.findOneByEmail(email);
   }
 }

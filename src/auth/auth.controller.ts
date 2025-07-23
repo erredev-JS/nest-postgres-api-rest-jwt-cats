@@ -39,7 +39,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   } 
   @Get('profile')
-  @Auth(Role.USER, Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   profile(@ActiveUser() user: UserActiveInterface) {
     return this.authService.profile(user);
   }
