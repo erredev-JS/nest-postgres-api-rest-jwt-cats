@@ -103,10 +103,10 @@ export class CatsService {
 
   async remove(id: number, user: UserActiveInterface) {
     const cat = await this.catRepository.findOneBy({id})
-    if(cat?.userEmail !== user.email){
-      throw new UnauthorizedException({message: 'Este gato no es de tu autoria.'})
-    }else{
+    if((cat?.userEmail === user.email) || user.role === Role.ADMIN){
       return await this.catRepository.softDelete({ id });
+    }else{
+      throw new UnauthorizedException({message: 'Este gato no es de tu autoria.'})
     }
   }
 }
