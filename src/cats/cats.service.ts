@@ -98,7 +98,13 @@ export class CatsService {
   }
 
   async update(id: number, updateCatDto: UpdateCatDto) {
-    return await this.catRepository.update({ id }, updateCatDto);
+   const {breedId, ...body} = updateCatDto
+   return await this.catRepository.update(
+    {id}, {
+      ...body,
+      breed: {id: breedId}
+    }
+   )
   }
 
   async remove(id: number, user: UserActiveInterface) {
