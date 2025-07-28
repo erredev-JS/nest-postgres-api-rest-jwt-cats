@@ -31,7 +31,7 @@ export class BreedsService {
   
     return {
       totalPages,
-      result: breeds,
+      result: breeds.sort((a , b) => a.id - b.id),
     };
   }
   async findOne(id: number) {
