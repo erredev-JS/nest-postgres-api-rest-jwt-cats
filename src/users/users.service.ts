@@ -20,16 +20,17 @@ export class UsersService {
     return await this.userRepository.find();
   }
   async findAllPaged(pageSelected: number, size: number) {
-    const [breeds, count] = await this.userRepository.findAndCount({
+    const [users, count] = await this.userRepository.findAndCount({
       skip: pageSelected * size,
       take: size,
+      order: {id: "ASC"}
     });
 
     const totalPages = Math.ceil(count / size);
 
     return {
       totalPages,
-      result: breeds,
+      result: users,
     };
   }
   async findOne(id: number) {

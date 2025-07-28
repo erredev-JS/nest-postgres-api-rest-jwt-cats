@@ -78,6 +78,7 @@ export class CatsService {
     where: {userEmail: user.email},
     skip: pageSelected * size,
     take: size,
+    order: {id: "ASC"}
   });
 
   const totalPages = Math.ceil(count / size);
