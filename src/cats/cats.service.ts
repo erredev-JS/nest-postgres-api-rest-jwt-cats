@@ -54,6 +54,7 @@ export class CatsService {
   const [cats, count] = await this.catRepository.findAndCount({
     skip: pageSelected * size,
     take: size,
+    order: {id: "ASC"}
   });
 
   const totalPages = Math.ceil(count / size);
