@@ -25,13 +25,14 @@ export class BreedsService {
     const [breeds, count] = await this.breedRepository.findAndCount({
       skip: pageSelected * size,
       take: size,
+      order: {id: "ASC"}
     });
   
     const totalPages = Math.ceil(count / size);
   
     return {
       totalPages,
-      result: breeds.sort((a , b) => a.id - b.id),
+      result: breeds,
     };
   }
   async findOne(id: number) {
