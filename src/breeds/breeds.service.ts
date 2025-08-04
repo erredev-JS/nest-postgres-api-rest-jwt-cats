@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Breed } from './entities/breed.entity';
 import {Repository} from 'typeorm'
+import { Cat } from 'src/cats/entities/cat.entity';
 @Injectable()
 export class BreedsService {
 
   constructor (
     @InjectRepository(Breed)
-    private readonly breedRepository: Repository<Breed>
+    private readonly breedRepository: Repository<Breed>,
+    @InjectRepository(Cat)
+    private readonly catRepository: Repository<Cat>
   ) {}
 
   async create(createBreedDto: CreateBreedDto) {
@@ -48,6 +51,18 @@ export class BreedsService {
   }
 
   async remove(id: number) {
+    const breed = await this.breedRepository.findOneBy({id})
+    if(!breed){
+      throw new NotFoundException('Raza inexistente')
+    }
+    const catsCount = await this.catRepository.count({
+      where: {breed: breed}
+    })
+
+    if(catsCount > 0){
+      throw new BadRequestException('No puedes eliminar una raza asignada a otros gatos.')
+    }
+
     return this.breedRepository.softDelete(id);
   }
 }
