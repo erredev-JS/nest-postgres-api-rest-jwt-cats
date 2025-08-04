@@ -53,6 +53,7 @@ export class BreedsService {
   async remove(id: number) {
     const breed = await this.breedRepository.findOneBy({id})
     if(!breed){
+      
       throw new NotFoundException('Raza inexistente')
     }
     const catsCount = await this.catRepository.count({
